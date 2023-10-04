@@ -4,8 +4,8 @@ module.exports = defineConfig({
   // TODO 需要修改下面的参数
   pwa: {
     name: 'netPlayer PWA',
-    themeColor: '#4c89fe',
-    msTileColor: '#4c89fe',
+    themeColor: '#ffffff',
+    msTileColor: '#ffffff',
     manifestOptions: {
       start_url: '.',
       background_color: '#ffffff'
