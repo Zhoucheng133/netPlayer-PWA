@@ -1,19 +1,23 @@
 <template>
   <div id="app">
     <loadingView v-if="login==null" />
-    <loginView />
+    <loginView v-else-if="login==true" />
+    <mainView v-else />
+
   </div>
 </template>
 
 <script>
 import loadingView from '@/components/_loadingView.vue';
 import loginView from '@/components/loginView.vue';
+import mainView from './components/_mainView.vue';
 // const axios=require("axios");
 
 export default {
   components:{
     loadingView,
     loginView,
+    mainView
   },
   data() {
     return {
