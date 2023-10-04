@@ -8,7 +8,7 @@ module.exports = defineConfig({
     msTileColor: '#4c89fe',
     manifestOptions: {
       start_url: '.',
-      background_color: '#4c89fe'
+      background_color: '#ffffff'
     },
     workboxPluginMode: 'GenerateSW',
     workboxOptions: {
