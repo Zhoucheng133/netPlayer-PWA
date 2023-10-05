@@ -12,6 +12,7 @@ module.exports = defineConfig({
     },
     workboxPluginMode: 'GenerateSW',
     workboxOptions: {
-    }
+      // swDest: 'src/registerServiceWorker.js',
+    },
   }
 })
