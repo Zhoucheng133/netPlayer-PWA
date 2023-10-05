@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <loadingView v-if="login==null" />
-    <loginView v-else-if="login==true" />
+    <loginView v-else-if="login==false" />
     <mainView v-else />
 
   </div>
