@@ -3,10 +3,11 @@
     <div id="player"></div>
     <a-button @click="go">开始</a-button>
     <a-button @click="toggleSong">暂停/播放</a-button>
-    <a-button @click="nextSong">下一首</a-button>
+    <a-button @click="nextSongHandler">下一首</a-button>
     <a-button @click="preSong">上一首</a-button>
     <a-button @click="changeMode('random')">随机播放</a-button>
     <a-button @click="changeMode('list')">顺序播放</a-button>
+    播放: {{ isPlay }}
   </div>
 </template>
 
@@ -34,6 +35,10 @@ export default {
       playList: [],
       playIndex: 0,
       playMode: 'list',
+
+      nextFlag: false,
+
+      isPlay: false,
     }
   },
   methods: {
@@ -75,8 +80,7 @@ export default {
       this.ap = new APlayer({
         container: document.getElementById('player'),
         autoplay: false,
-        loop: 'none',
-        preload: 'auto',
+        preload: 'metadata',
         volume: 0.7,
         mutex: true,
         listFolded: false,
@@ -84,25 +88,60 @@ export default {
       });
       this.ap.list.switch(this.playIndex);
       this.ap.play();
+      this.isPlay=true;
       var that=this;
+      this.ap.on('pause', function(){
+        that.isPlay=false;
+      })
+      this.ap.on('play', function(){
+        that.isPlay=true;
+      })
       this.ap.on('ended', function () {
+        console.log("end");
+        that.nextFlag=true;
         that.nextSong();
       })
+      this.ap.on('loadeddata', function(){
+        that.nextCheck();
+      })
+    },
+    nextSongHandler(){
+      if(this.playMode=="list"){
+        this.ap.skipForward();
+        this.nextSong();
+      }else{
+        // this.nextCheck();
+        var tmp=Math.floor((Math.random()*this.playList.length));
+        this.playIndex=tmp;
+        this.ap.list.switch(tmp);
+      }
     },
     // 切换暂停/播放
     toggleSong(){
       this.ap.toggle();
     },
-    // 下一首
-    nextSong(){
-      if(this.playMode=='list'){
-        this.ap.skipForward();
-        this.playIndex=(this.playIndex+1+this.playList.length)%this.playList.length;
-      }else{
+    nextCheck(){
+      // console.log("here?");
+      // console.log(this.playMode);
+      // console.log(this.nextFlag);
+      if(this.playMode!='list' && this.nextFlag){
         var tmp=Math.floor((Math.random()*this.playList.length));
         this.playIndex=tmp;
         this.ap.list.switch(tmp);
       }
+      this.nextFlag=false;
+    },
+    // 下一首
+    nextSong(){
+      if(this.playMode=='list'){
+        // this.ap.skipForward();
+        this.playIndex=(this.playIndex+1+this.playList.length)%this.playList.length;
+      }
+      // else{
+      //   var tmp=Math.floor((Math.random()*this.playList.length));
+      //   this.playIndex=tmp;
+      //   this.ap.list.switch(tmp);
+      // }
     },
     // 上一首
     preSong(){
@@ -167,7 +206,7 @@ export default {
       });
 
       navigator.mediaSession.setActionHandler('nexttrack', function() {
-        that.nextSong();
+        that.nextSongHandler();
       });
     }
   },
@@ -176,9 +215,10 @@ export default {
       // console.log("update_list");
       this.setMedia();
     },
-    playIndex: function(){
+    playIndex: function(val){
       // console.log("update_index");
       this.setMedia();
+      console.log(val);
     }
   },
 }
