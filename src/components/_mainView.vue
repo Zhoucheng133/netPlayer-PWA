@@ -23,6 +23,7 @@
 
     <div class="pageIndex">
       <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" :allSongs="allSongs" @updateAllSongs="updateAllSongs" @playSong="playSong" />
+      <aboutView class="pageContent" v-show="pageNow=='关于'"/>
     </div>
   </div>
 </template>
@@ -30,10 +31,12 @@
 <script>
 import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
+import aboutView from './aboutView.vue';
 export default {
   components: {
     audioController,
-    allSongView
+    allSongView,
+    aboutView
   },
   props: {
     url: String,
