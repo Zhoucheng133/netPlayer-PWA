@@ -123,6 +123,7 @@ export default {
   margin-left: 5px;
   border: none;
   outline: medium;
+  width: 200px;
 }
 .inputIcon{
   font-size: 20px;
