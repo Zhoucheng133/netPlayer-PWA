@@ -30,7 +30,8 @@ export default {
     },
     async getUserInfo(){
       if(localStorage.getItem("url")==null || localStorage.getItem("username")==null || localStorage.getItem("token")==null || localStorage.getItem("salt")==null){
-        return false;
+        this.login=false;
+        return;
       }
       var url=localStorage.getItem("url");
       var username=localStorage.getItem("username");
@@ -49,16 +50,12 @@ export default {
       .catch(()=>{
         flag=false;
       })
-      return flag;
+      
+      this.login=flag;
     }
   },
   created() {
     this.getUserInfo();
-    if(!this.getUserInfo()){
-      this.login=false;
-    }else{
-      this.login=true;
-    }
   },
 }
 </script>

@@ -83,7 +83,7 @@ export default {
       axios.get(this.inputURL+'/rest/ping.view?v=1.12.0&c=netPlayer&f=json&u='+this.inputName+'&t='+token+'&s='+salt)
       .then((response)=>{
         if(response.data['subsonic-response'].status=='ok'){
-          this.$message.success("登录成功");
+          // this.$message.success("登录成功");
           localStorage.setItem("username", this.inputName);
           localStorage.setItem('url', this.inputURL);
           localStorage.setItem('token', token);
