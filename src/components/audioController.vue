@@ -1,7 +1,6 @@
 <template>
   <div>
     <audio :src="nowplayURL" ref="player" controls @ended="nextSong"></audio><br/>
-    <a-button @click="go">开始</a-button>
     <a-button @click="toggleSong">暂停/播放</a-button>
     <a-button @click="nextSong">下一首</a-button>
     <a-button @click="preSong">上一首</a-button>
@@ -14,20 +13,20 @@
 <script>
 
 // test!
-import axios from 'axios';
-import {url, username, salt, token} from "./test.js";
+// import axios from 'axios';
+// import {url, username, salt, token} from "./test.js";
 // test end
 
 export default {
+  props: {
+    username: String,
+    token: String,
+    salt: String,
+    url: String,
+  },
   data() {
     return {
       ap: undefined,
-
-      // 注意从localstorage获取到用户信息
-      username: "",
-      token: "",
-      salt: "",
-      url: "",
 
       playList: [],
       playIndex: 0,
@@ -39,46 +38,20 @@ export default {
     }
   },
   methods: {
-    go(){
-      axios.get(url+"/rest/getRandomSongs?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&size=500").then((response)=>{
-        this.play(response.data['subsonic-response'].randomSongs.song, 0);
-      })
-    },
     // 播放制定歌曲
     play(songList, playIndex){
-      this.playIndex=playIndex;
+      var that=this;
       this.playList=songList.map(function(item){
         return {
           id: item.id,
           name: item.title,
           artist: item.artist,
-          created: item.created,
-          url: url+"/rest/stream?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+item.id,
-          cover: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+item.id,
+          url: that.url+"/rest/stream?v=1.12.0&c=netPlayer&f=json&u="+that.username+"&t="+that.token+"&s="+that.salt+"&id="+item.id,
+          cover: that.url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+that.username+"&t="+that.token+"&s="+that.salt+"&id="+item.id,
         }
       });
-
-      this.playIndex=Math.floor((Math.random()*this.playList.length));
-
-      // 注意，⬇临时内容，注意修改
-
-      this.playList.sort(function(a,b){
-        const timestampA = a.created;
-        const timestampB = b.created;
-
-        if (timestampA < timestampB) {
-          return 1; // 返回正数表示 a 在 b 之前
-        } else if (timestampA > timestampB) {
-          return -1; // 返回负数表示 a 在 b 之后
-        } else {
-          return 0; // 返回0表示相等
-        }
-      })
-
-      // 注意，⬆临时内容，注意修改
-
+      this.playIndex=playIndex;
       this.nowplayURL=this.playList[this.playIndex].url;
-      var that=this;
       this.$nextTick(()=>{
         that.$refs.player.play();
         that.isPlay=true;
@@ -94,6 +67,7 @@ export default {
         this.$refs.player.play();
         this.isPlay=true;
       }
+      this.$emit("isPlay", this.isPlay);
     },
     // 下一首
     nextSong(){
@@ -106,6 +80,7 @@ export default {
         this.$nextTick(()=>{
           that.$refs.player.play();
           that.isPlay=true;
+          that.$emit("updatePlayIndex", that.playIndex);
         })
       }else{
         this.$refs.player.pause();
@@ -116,6 +91,7 @@ export default {
         this.$nextTick(()=>{
           that.$refs.player.play();
           that.isPlay=true;
+          that.$emit("updatePlayIndex", that.playIndex);
         })
       }
     },
@@ -142,7 +118,7 @@ export default {
         album: '',
         artwork: [
             {
-              src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+512,
+              src: this.url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+this.username+"&t="+this.token+"&s="+this.salt+"&id="+this.playList[this.playIndex].id+"&size="+512,
               sizes: "512x512",
               type: "image/png",
             },

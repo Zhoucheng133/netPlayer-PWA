@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audioController ref="audio" style="display: none;"/>
+    <audioController ref="audioPlayer" style="display: none;" :url="url" :username="username" :salt="salt" :token="token" @isPlay="isPlayChange" @updatePlayIndex="updatePlayIndex"  />
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="pageIndex">
-      <allSongView v-if="pageNow=='所有音乐'" :url="url" :username="username" :salt="salt" :token="token" :allSongs="allSongs" @updateAllSongs="updateAllSongs" />
+      <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" :allSongs="allSongs" @updateAllSongs="updateAllSongs" @playSong="playSong" />
     </div>
   </div>
 </template>
@@ -46,9 +46,24 @@ export default {
       pageNow: '所有音乐',
 
       allSongs: [],
+
+      isPlay: false,
+      playFrom: '',
+      playIndex: 0,
     }
   },
   methods: {
+    updatePlayIndex(val){
+      this.playIndex=val;
+    },
+    isPlayChange(val){
+      this.isPlay=val;
+    },
+    playSong(from ,list, index){
+      this.playFrom=from;
+      this.playIndex=index;
+      this.$refs.audioPlayer.play(list, index);
+    },
     updateAllSongs(val){
       this.allSongs=val;
     },
@@ -63,9 +78,14 @@ export default {
 </script>
 
 <style scoped>
+.pageContent{
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+}
 .pageIndex{
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 80px);
   padding-top: 60px;
   /* background-color: lightskyblue; */
 }
