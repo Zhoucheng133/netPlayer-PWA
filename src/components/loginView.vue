@@ -13,6 +13,24 @@
             <input type="text" class="inputContent" v-model="inputURL">
           </div>
         </div>
+        <div class="input" style="margin-top: 30px;">
+          <div class="inputName">用户名</div>
+          <div class="inputArea">
+            <a-icon type="user" class="inputIcon" />
+            <input type="text" class="inputContent" v-model="inputName">
+          </div>
+        </div>
+        <div class="input" style="margin-top: 30px;">
+          <div class="inputName">密码</div>
+          <div class="inputArea">
+            <a-icon type="key" class="inputIcon" />
+            <input type="password" class="inputContent" v-model="inputPass">
+          </div>
+        </div>
+      </div>
+      <div class="loginButton">
+        <div>登录</div>
+        <a-icon type="right" />
       </div>
     </div>
   </div>
@@ -23,12 +41,28 @@ export default {
   data() {
     return {
       inputURL: '',
+      inputName: '',
+      inputPass: '',
     }
   },
 }
 </script>
 
 <style scoped>
+.loginButton{
+  align-self: flex-end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 100px;
+  background-color: rgb(24, 144, 255);
+  border-radius: 10px;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  margin-top: 20px;
+}
 .inputContent:focus-visible{
   border: none;
 }
@@ -61,7 +95,7 @@ export default {
   /* justify-content: center; */
   border-radius: 10px;
   background-color: white;
-  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   height: 80px;
   width: 250px;
 }
