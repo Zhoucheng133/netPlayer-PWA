@@ -4,21 +4,25 @@
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
-      <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
-        <i class="bi bi-music-note navgIcon"></i>
+      <playingBar/>
+      <div class="bottomButtons">
+        <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
+          <i class="bi bi-music-note navgIcon"></i>
+        </div>
+        <div :class="pageNow=='我喜欢的'?'navgItem_selected':'navgItem'" @click="pageChang('我喜欢的')">
+          <i class="bi bi-heart-fill navgIcon"></i>
+        </div>
+        <div :class="pageNow=='我的歌单'?'navgItem_selected':'navgItem'" @click="pageChang('我的歌单')">
+          <i class="bi bi-music-note-list navgIcon"></i>
+        </div>
+        <div :class="pageNow=='搜索'?'navgItem_selected':'navgItem'" @click="pageChang('搜索')">
+          <i class="bi bi-search navgIcon"></i>
+        </div>
+        <div :class="pageNow=='关于'?'navgItem_selected':'navgItem'" @click="pageChang('关于')">
+          <i class="bi bi-info-circle-fill navgIcon"></i>
+        </div>
       </div>
-      <div :class="pageNow=='我喜欢的'?'navgItem_selected':'navgItem'" @click="pageChang('我喜欢的')">
-        <i class="bi bi-heart-fill navgIcon"></i>
-      </div>
-      <div :class="pageNow=='我的歌单'?'navgItem_selected':'navgItem'" @click="pageChang('我的歌单')">
-        <i class="bi bi-music-note-list navgIcon"></i>
-      </div>
-      <div :class="pageNow=='搜索'?'navgItem_selected':'navgItem'" @click="pageChang('搜索')">
-        <i class="bi bi-search navgIcon"></i>
-      </div>
-      <div :class="pageNow=='关于'?'navgItem_selected':'navgItem'" @click="pageChang('关于')">
-        <i class="bi bi-info-circle-fill navgIcon"></i>
-      </div>
+      <div class="blank"></div>
     </div>
 
     <div class="pageIndex">
@@ -32,11 +36,13 @@
 import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
 import aboutView from './aboutView.vue';
+import playingBar from './_playingBar.vue';
 export default {
   components: {
     audioController,
     allSongView,
-    aboutView
+    aboutView,
+    playingBar
   },
   props: {
     url: String,
@@ -88,9 +94,9 @@ export default {
 }
 .pageIndex{
   width: 100vw;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 150px);
   padding-top: 60px;
-  /* background-color: lightskyblue; */
+  position: fixed;
 }
 .navgItem_selected{
   color: rgb(24, 144, 255);
@@ -107,17 +113,26 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.navgBar{
+.bottomButtons{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+}
+.navgBar{
+  display: grid;
+  grid-template-rows: 70px 70px 10px;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 80px;
-  box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1);
+  height: 150px;
+  /* box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1); */
   background-color: rgba(255, 255, 255, .8);
   backdrop-filter: blur(5px);
+}
+.blank{
+  height: 10px;
+  background-color: #fff;
 }
 .appBar{
   position: fixed;
