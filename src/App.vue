@@ -36,6 +36,10 @@ export default {
   methods: {
     routerToMain(){
       this.login=true;
+      this.url=localStorage.getItem("url");
+      this.username=localStorage.getItem("username");
+      this.token=localStorage.getItem("token");
+      this.salt=localStorage.getItem("salt");
     },
     async getUserInfo(){
       if(localStorage.getItem("url")==null || localStorage.getItem("username")==null || localStorage.getItem("token")==null || localStorage.getItem("salt")==null){
