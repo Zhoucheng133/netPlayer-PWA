@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <loadingView v-if="login==null" />
-    <loginView v-else-if="login==false" />
+    <loginView v-else-if="login==false" @toMain="routerToMain" />
     <mainView v-else />
 
   </div>
@@ -11,7 +11,7 @@
 import loadingView from '@/components/_loadingView.vue';
 import loginView from '@/components/loginView.vue';
 import mainView from './components/_mainView.vue';
-// const axios=require("axios");
+const axios=require("axios");
 
 export default {
   components:{
@@ -28,16 +28,36 @@ export default {
     routerToMain(){
       this.login=true;
     },
-    getUserInfo(){
-      if(localStorage.getItem("username")==null || localStorage.getItem("token")==null || localStorage.getItem("salt")==null){
+    async getUserInfo(){
+      if(localStorage.getItem("url")==null || localStorage.getItem("username")==null || localStorage.getItem("token")==null || localStorage.getItem("salt")==null){
         return false;
       }
+      var url=localStorage.getItem("url");
+      var username=localStorage.getItem("username");
+      var token=localStorage.getItem("token");
+      var salt=localStorage.getItem("salt");
+      
+      var flag=false;
+      await axios.get(url+'/rest/ping.view?v=1.12.0&c=netPlayer&f=json&u='+username+'&t='+token+'&s='+salt)
+      .then((response)=>{
+        if(response.data['subsonic-response'].status=='ok'){
+          flag=true;
+        }else{
+          flag=false;
+        }
+      })
+      .catch(()=>{
+        flag=false;
+      })
+      return flag;
     }
   },
   created() {
     this.getUserInfo();
     if(!this.getUserInfo()){
       this.login=false;
+    }else{
+      this.login=true;
     }
   },
 }
