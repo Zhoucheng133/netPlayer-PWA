@@ -12,6 +12,7 @@ export default {
     username: String,
     token: String,
     salt: String,
+    allSongs: Array,
   },
   data() {
     return {
@@ -35,6 +36,7 @@ export default {
             return 0; // 返回0表示相等
           }
         });
+        this.$emit("updateAllSongs", this.list);
       })
       .catch(()=>{
 
@@ -42,7 +44,14 @@ export default {
     }
   },
   created() {
-    this.getList();
+    if(this.allSongs.length==0){
+      // console.log("冷加载");
+      this.getList();
+    }else{
+      this.list=this.allSongs;
+      // console.log("热加载");
+    }
+    
   },
 }
 </script>

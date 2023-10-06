@@ -22,7 +22,7 @@
     </div>
 
     <div class="pageIndex">
-      <allSongView v-if="pageNow=='所有音乐'" :url="url" :username="username" :salt="salt" :token="token" />
+      <allSongView v-if="pageNow=='所有音乐'" :url="url" :username="username" :salt="salt" :token="token" :allSongs="allSongs" @updateAllSongs="updateAllSongs" />
     </div>
   </div>
 </template>
@@ -44,9 +44,14 @@ export default {
   data() {
     return {
       pageNow: '所有音乐',
+
+      allSongs: [],
     }
   },
   methods: {
+    updateAllSongs(val){
+      this.allSongs=val;
+    },
     pageChang(pageName){
       if(pageName==this.pageNow){
         return;
@@ -88,7 +93,7 @@ export default {
   width: 100vw;
   height: 80px;
   box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1);
-  background-color: rgba(255, 255, 255, .7);
+  background-color: rgba(255, 255, 255, .8);
   backdrop-filter: blur(5px);
 }
 .appBar{
