@@ -44,13 +44,14 @@ export default {
         if(response.data['subsonic-response'].status=='ok'){
           flag=true;
         }else{
+          localStorage.clear();
           flag=false;
         }
       })
       .catch(()=>{
         flag=false;
       })
-      
+
       this.login=flag;
     }
   },
