@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div id="player"></div>
+    <audio :src="nowplayURL" ref="player" controls @ended="nextSong"></audio><br/>
     <a-button @click="go">开始</a-button>
     <a-button @click="toggleSong">暂停/播放</a-button>
-    <a-button @click="nextSongHandler">下一首</a-button>
+    <a-button @click="nextSong">下一首</a-button>
     <a-button @click="preSong">上一首</a-button>
     <a-button @click="changeMode('random')">随机播放</a-button>
     <a-button @click="changeMode('list')">顺序播放</a-button>
@@ -12,9 +12,6 @@
 </template>
 
 <script>
-
-import 'aplayer/dist/APlayer.min.css';
-import APlayer from 'aplayer';
 
 // test!
 import axios from 'axios';
@@ -36,7 +33,7 @@ export default {
       playIndex: 0,
       playMode: 'list',
 
-      nextFlag: false,
+      nowplayURL: '',
 
       isPlay: false,
     }
@@ -44,7 +41,7 @@ export default {
   methods: {
     go(){
       axios.get(url+"/rest/getRandomSongs?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&size=500").then((response)=>{
-        this.play(response.data['subsonic-response'].randomSongs.song,0);
+        this.play(response.data['subsonic-response'].randomSongs.song, 0);
       })
     },
     // 播放制定歌曲
@@ -79,77 +76,58 @@ export default {
       })
 
       // 注意，⬆临时内容，注意修改
-      this.ap = new APlayer({
-        container: document.getElementById('player'),
-        autoplay: false,
-        preload: 'metadata',
-        volume: 0.7,
-        mutex: true,
-        listFolded: false,
-        audio: this.playList,
-      });
-      this.ap.list.switch(this.playIndex);
-      this.ap.play();
-      this.isPlay=true;
-      this.setMedia();
+
+      this.nowplayURL=this.playList[this.playIndex].url;
       var that=this;
-      this.ap.on('pause', function(){
-        that.isPlay=false;
-      })
-      this.ap.on('play', function(){
+      this.$nextTick(()=>{
+        that.$refs.player.play();
         that.isPlay=true;
+        that.setMedia();
       })
-      this.ap.on('ended', function () {
-        console.log("end");
-        that.nextFlag=true;
-        that.nextSong();
-      })
-      this.ap.on('loadeddata', function(){
-        that.nextCheck();
-      })
-    },
-    nextSongHandler(){
-      if(this.playMode=="list"){
-        this.ap.skipForward();
-        this.nextSong();
-      }else{
-        // this.nextCheck();
-        var tmp=Math.floor((Math.random()*this.playList.length));
-        this.playIndex=tmp;
-        this.ap.list.switch(tmp);
-      }
     },
     // 切换暂停/播放
     toggleSong(){
-      this.ap.toggle();
-    },
-    nextCheck(){
-      // console.log("here?");
-      // console.log(this.playMode);
-      // console.log(this.nextFlag);
-      if(this.playMode!='list' && this.nextFlag){
-        var tmp=Math.floor((Math.random()*this.playList.length));
-        this.playIndex=tmp;
-        this.ap.list.switch(tmp);
+      if(this.isPlay){
+        this.$refs.player.pause();
+        this.isPlay=false;
+      }else{
+        this.$refs.player.play();
+        this.isPlay=true;
       }
-      this.nextFlag=false;
     },
     // 下一首
     nextSong(){
+      var that=this;
       if(this.playMode=='list'){
-        // this.ap.skipForward();
+        this.$refs.player.pause();
+        this.isPlay=false;
         this.playIndex=(this.playIndex+1+this.playList.length)%this.playList.length;
+        this.$refs.player.src=this.playList[this.playIndex].url;
+        this.$nextTick(()=>{
+          that.$refs.player.play();
+          that.isPlay=true;
+        })
+      }else{
+        this.$refs.player.pause();
+        this.isPlay=false;
+        var tmp=Math.floor((Math.random()*this.playList.length));
+        this.playIndex=tmp;
+        this.$refs.player.src=this.playList[this.playIndex].url;
+        this.$nextTick(()=>{
+          that.$refs.player.play();
+          that.isPlay=true;
+        })
       }
-      // else{
-      //   var tmp=Math.floor((Math.random()*this.playList.length));
-      //   this.playIndex=tmp;
-      //   this.ap.list.switch(tmp);
-      // }
     },
     // 上一首
     preSong(){
-      this.ap.skipBack();
+      var that=this;
       this.playIndex=(this.playIndex-1+this.playList.length)%this.playList.length;
+      this.$refs.player.src=this.playList[this.playIndex].url;
+      this.$nextTick(()=>{
+        that.$refs.player.play();
+        that.isPlay=true;
+      })
     },
     // 模式: list, random
     changeMode(mode){
@@ -163,31 +141,6 @@ export default {
         artist: this.playList[this.playIndex].artist,
         album: '',
         artwork: [
-            {
-              src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+96,
-              sizes: "96x96",
-              type: "image/png",
-            },
-            {
-              src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+128,
-              sizes: "128x128",
-              type: "image/png",
-            },
-            {
-              src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+192,
-              sizes: "192x192",
-              type: "image/png",
-            },
-            {
-              src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+256,
-              sizes: "256x256",
-              type: "image/png",
-            },
-            {
-              src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+384,
-              sizes: "384x384",
-              type: "image/png",
-            },
             {
               src: url+"/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u="+username+"&t="+token+"&s="+salt+"&id="+this.playList[this.playIndex].id+"&size="+512,
               sizes: "512x512",
@@ -209,7 +162,7 @@ export default {
       });
 
       navigator.mediaSession.setActionHandler('nexttrack', function() {
-        that.nextSongHandler();
+        that.nextSong();
       });
     }
   },
@@ -218,10 +171,9 @@ export default {
       // console.log("update_list");
       this.setMedia();
     },
-    playIndex: function(val){
+    playIndex: function(){
       // console.log("update_index");
       this.setMedia();
-      console.log(val);
     }
   },
 }
