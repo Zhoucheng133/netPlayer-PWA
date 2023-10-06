@@ -25,6 +25,9 @@ export default {
     }
   },
   methods: {
+    routerToMain(){
+      this.login=true;
+    },
     getUserInfo(){
       if(localStorage.getItem("username")==null || localStorage.getItem("token")==null || localStorage.getItem("salt")==null){
         return false;
