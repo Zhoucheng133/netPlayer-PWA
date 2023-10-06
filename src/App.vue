@@ -2,7 +2,11 @@
   <div id="app">
     <loadingView v-if="login==null" />
     <loginView v-else-if="login==false" @toMain="routerToMain" />
-    <mainView v-else />
+    <mainView v-else 
+    :url="url" 
+    :username="username" 
+    :salt="salt" 
+    :token="token" />
 
   </div>
 </template>
@@ -22,6 +26,11 @@ export default {
   data() {
     return {
       login: null,
+
+      username: '',
+      url: '',
+      salt: '',
+      token: ''
     }
   },
   methods: {
@@ -34,9 +43,13 @@ export default {
         return;
       }
       var url=localStorage.getItem("url");
+      this.url=url;
       var username=localStorage.getItem("username");
+      this.username=username;
       var token=localStorage.getItem("token");
+      this.token=token;
       var salt=localStorage.getItem("salt");
+      this.salt=salt;
       
       var flag=false;
       await axios.get(url+'/rest/ping.view?v=1.12.0&c=netPlayer&f=json&u='+username+'&t='+token+'&s='+salt)
