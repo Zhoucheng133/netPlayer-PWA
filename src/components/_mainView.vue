@@ -1,7 +1,15 @@
 <template>
   <div>
     <div :class="animationForw? 'mask' : 'maskNew'" v-if="showMask"></div>
-    <audioController ref="audioPlayer" style="display: none;" :url="url" :username="username" :salt="salt" :token="token" @isPlay="isPlayChange" @updatePlayIndex="updatePlayIndex"  />
+    <audioController 
+      ref="audioPlayer" 
+      style="display: none;" 
+      :url="url" 
+      :username="username" 
+      :salt="salt" 
+      :token="token" 
+      @isPlay="isPlayChange" 
+      @updatePlayIndex="updatePlayIndex"  />
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
@@ -44,7 +52,19 @@
       @preSong="preSong"/>
 
     <div class="pageIndex">
-      <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @updateAllSongs="updateAllSongs" @playSong="playSong" />
+      <allSongView 
+        class="pageContent" 
+        v-show="pageNow=='所有音乐'" 
+        :isPlay="isPlay" 
+        :playFrom="playFrom" 
+        :playIndex="playIndex" 
+        :url="url" 
+        :username="username" 
+        :salt="salt" 
+        :token="token" 
+        @updateAllSongs="updateAllSongs" 
+        @playSong="playSong" />
+
       <aboutView class="pageContent" v-show="pageNow=='关于'"/>
     </div>
   </div>
