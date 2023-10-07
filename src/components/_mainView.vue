@@ -225,7 +225,7 @@ export default {
 }
 .pageContent{
   width: 100vw;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 60px - 164px);
   overflow-y: scroll;
   position: fixed;
   margin-top: 60px;
@@ -252,19 +252,19 @@ export default {
 }
 .navgBar{
   display: grid;
-  grid-template-rows: 70px 70px 10px;
+  grid-template-rows: 70px 70px 24px;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 150px;
+  height: 164px;
   z-index: 80;
   box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1);
   background-color: rgba(255, 255, 255, .8);
   backdrop-filter: blur(5px);
 }
 .blank{
-  height: 10px;
+  height: 24px;
   background-color: #fff;
 }
 .appBar{
