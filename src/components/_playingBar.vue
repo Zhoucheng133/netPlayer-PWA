@@ -128,6 +128,7 @@ export default {
   /* display: flex; */
   display: grid;
   padding-right: 15px;
+  background-color: white;
   grid-template-columns: 70px auto 90px;
 }
 </style>

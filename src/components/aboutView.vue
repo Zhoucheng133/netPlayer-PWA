@@ -2,7 +2,7 @@
   <div class="content">
     <img src="@/assets/logo.png" alt="" width="100px">
     <div class="title">netPlayer Web (PWA)</div>
-    <div class="version">Develop</div>
+    <div class="version">Develop v0.1</div>
   </div>
 </template>
 

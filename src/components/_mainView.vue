@@ -65,22 +65,21 @@
       @nextSong="nextSong"
       @preSong="preSong"/>
 
-    <div class="pageIndex">
-      <allSongView 
-        class="pageContent" 
-        v-show="pageNow=='所有音乐'" 
-        :isPlay="isPlay" 
-        :playFrom="playFrom" 
-        :playIndex="playIndex" 
-        :url="url" 
-        :username="username" 
-        :salt="salt" 
-        :token="token" 
-        @updateAllSongs="updateAllSongs" 
-        @playSong="playSong" />
+    <allSongView 
+      class="pageContent" 
+      v-show="pageNow=='所有音乐'" 
+      :isPlay="isPlay" 
+      :playFrom="playFrom" 
+      :playIndex="playIndex" 
+      :url="url" 
+      :username="username" 
+      :salt="salt" 
+      :token="token" 
+      v-if="false"
+      @updateAllSongs="updateAllSongs" 
+      @playSong="playSong" />
 
-      <aboutView class="pageContent" v-show="pageNow=='关于'"/>
-    </div>
+    <aboutView class="pageContent" v-show="pageNow=='关于'"/>
   </div>
 </template>
 
@@ -226,15 +225,11 @@ export default {
   transition: all ease-in-out .3s;
 }
 .pageContent{
-  height: 100%;
-  width: 100%;
-  overflow-y: scroll;
-}
-.pageIndex{
   width: 100vw;
   height: calc(100vh - 150px);
-  padding-top: 60px;
+  overflow-y: scroll;
   position: fixed;
+  margin-top: 60px;
 }
 .navgItem_selected{
   color: rgb(24, 144, 255);
@@ -264,6 +259,7 @@ export default {
   left: 0;
   width: 100vw;
   height: 150px;
+  z-index: 80;
   box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1);
   background-color: rgba(255, 255, 255, .8);
   backdrop-filter: blur(5px);
@@ -282,6 +278,6 @@ export default {
   color: rgb(24, 144, 255);
   font-size: 18px;
   /* border-bottom: 1px solid; */
-  background-color: white;
+  /* background-color: white; */
 }
 </style>

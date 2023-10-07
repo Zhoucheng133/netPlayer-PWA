@@ -128,4 +128,9 @@ export default {
   padding-left: 10px;
   padding-right: 10px;
 }
+.main{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
 </style>
