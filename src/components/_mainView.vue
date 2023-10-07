@@ -26,7 +26,22 @@
       <div class="blank"></div>
     </div>
 
-    <playingView class="playingView" :style="{'transform': 'translate(0, '+playingViewTrans+')'}" @hidePlayingView="hidePlayingView"/>
+    <playingView 
+      class="playingView" 
+      :style="{'transform': 'translate(0, '+playingViewTrans+')'}" 
+      @hidePlayingView="hidePlayingView" 
+      :playList="playList" 
+      :isPlay="isPlay" 
+      :playFrom="playFrom" 
+      :playIndex="playIndex" 
+      :url="url" :username="username" 
+      :salt="salt" 
+      :token="token" 
+      @updateAllSongs="updateAllSongs" 
+      @playSong="playSong"
+      @toggleSong="toggleSong" 
+      @nextSong="nextSong"
+      @preSong="preSong"/>
 
     <div class="pageIndex">
       <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @updateAllSongs="updateAllSongs" @playSong="playSong" />
@@ -83,6 +98,11 @@ export default {
       if(this.playList.length!=0){
         this.$refs.audioPlayer.nextSong();
         this.isPlay=true;
+      }
+    },
+    preSong(){
+      if(this.playList.length!=0){
+        this.$refs.audioPlayer.preSong();
       }
     },
     toggleSong(){

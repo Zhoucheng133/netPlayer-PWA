@@ -104,6 +104,7 @@ export default {
       this.$nextTick(()=>{
         that.$refs.player.play();
         that.isPlay=true;
+        that.$emit("updatePlayIndex", that.playIndex);
       })
     },
     // 模式: list, random
