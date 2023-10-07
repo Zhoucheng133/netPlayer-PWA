@@ -1,10 +1,11 @@
 <template>
   <div>
+    <div :class="animationForw? 'mask' : 'maskNew'" v-if="showMask"></div>
     <audioController ref="audioPlayer" style="display: none;" :url="url" :username="username" :salt="salt" :token="token" @isPlay="isPlayChange" @updatePlayIndex="updatePlayIndex"  />
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
-      <playingBar :isPlay="isPlay" :playList="playList" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @toggleSong="toggleSong" @nextSong="nextSong" />
+      <playingBar :isPlay="isPlay" :playList="playList" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @toggleSong="toggleSong" @nextSong="nextSong" @showPlayingView="showPlayingView"/>
       <div class="bottomButtons">
         <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
           <i class="bi bi-music-note navgIcon"></i>
@@ -25,6 +26,8 @@
       <div class="blank"></div>
     </div>
 
+    <playingView class="playingView" :style="{'transform': 'translate(0, '+playingViewTrans+')'}" @hidePlayingView="hidePlayingView"/>
+
     <div class="pageIndex">
       <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @updateAllSongs="updateAllSongs" @playSong="playSong" />
       <aboutView class="pageContent" v-show="pageNow=='关于'"/>
@@ -37,12 +40,14 @@ import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
 import aboutView from './aboutView.vue';
 import playingBar from './_playingBar.vue';
+import playingView from './_playingView.vue';
 export default {
   components: {
     audioController,
     allSongView,
     aboutView,
-    playingBar
+    playingBar,
+    playingView
   },
   props: {
     url: String,
@@ -58,9 +63,22 @@ export default {
       playFrom: '',
       playIndex: 0,
       playList: [],
+
+      playingViewTrans: '100vh',
+      showMask: false,
+      animationForw: true,
     }
   },
   methods: {
+    hidePlayingView(){
+      this.playingViewTrans="100vh";
+      this.animationForw=false;
+      var that=this;
+      setTimeout(() => {
+        that.showMask=false;
+        that.animationForw=true;
+      }, 300);
+    },
     nextSong(){
       this.$refs.audioPlayer.nextSong();
     },
@@ -87,12 +105,58 @@ export default {
         return;
       }
       this.pageNow=pageName;
+    },
+    showPlayingView(){
+      this.showMask=true;
+      this.playingViewTrans='0';
     }
+  },
+  mounted() {
   },
 }
 </script>
 
 <style scoped>
+@keyframes opacityAnimation {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+@keyframes opacityBackAnimation {
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+.mask, .maskNew{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 80;
+  background-color: rgba(0, 0, 0, .3);
+}
+.maskNew{
+  animation: opacityBackAnimation linear forwards .3s;
+}
+.mask{
+  animation: opacityAnimation linear forwards .3s;
+}
+.playingView{
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  transition: all ease-in-out .3s;
+}
 .pageContent{
   height: 100%;
   width: 100%;

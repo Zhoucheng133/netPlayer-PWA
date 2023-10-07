@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" @click="showPlayingView" @touchmove="touchMove">
     <div class="cover">
       <img v-if="playList.length==0" src="@/assets/blank.jpg" alt="cover" width="50px" class="coverImg">
       <img v-else :src="getCoverLink()" alt="cover" width="50px" class="coverImg">
@@ -32,7 +32,31 @@ export default {
     playIndex: Number,
     isPlay: Boolean
   },
+  data() {
+    return {
+      touchY: 0,
+    }
+  },
   methods: {
+    touchMove(e){
+      if(this.touchY==0){
+        this.touchY=e.changedTouches[0].pageY;
+        return;
+      }else{
+        if(e.changedTouches[0].pageY+10<this.touchY){
+          this.$emit("showPlayingView");
+          // console.log("show?");
+          this.touchY=0;
+          return;
+        }else{
+          this.touchY=0;
+          return;
+        }
+      }
+    },
+    showPlayingView(){
+      this.$emit("showPlayingView");
+    },
     nextSong(){
       this.$emit('nextSong');
     },
@@ -47,11 +71,6 @@ export default {
     },
     getCoverLink(){
       return this.url+'/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt+'&id='+this.playList[this.playIndex].id;
-    }
-  },
-  data() {
-    return {
-      
     }
   },
   mounted() {
