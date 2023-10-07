@@ -4,7 +4,7 @@
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
-      <playingBar/>
+      <playingBar :isPlay="isPlay" :playList="playList" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" />
       <div class="bottomButtons">
         <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
           <i class="bi bi-music-note navgIcon"></i>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="pageIndex">
-      <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" :allSongs="allSongs" @updateAllSongs="updateAllSongs" @playSong="playSong" />
+      <allSongView class="pageContent" v-show="pageNow=='所有音乐'" :isPlay="isPlay" :playFrom="playFrom" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @updateAllSongs="updateAllSongs" @playSong="playSong" />
       <aboutView class="pageContent" v-show="pageNow=='关于'"/>
     </div>
   </div>
@@ -54,11 +54,10 @@ export default {
     return {
       pageNow: '所有音乐',
 
-      allSongs: [],
-
       isPlay: false,
       playFrom: '',
       playIndex: 0,
+      playList: [],
     }
   },
   methods: {
@@ -71,6 +70,7 @@ export default {
     playSong(from ,list, index){
       this.playFrom=from;
       this.playIndex=index;
+      this.playList=list;
       this.$refs.audioPlayer.play(list, index);
     },
     updateAllSongs(val){
@@ -126,7 +126,7 @@ export default {
   left: 0;
   width: 100vw;
   height: 150px;
-  /* box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1); */
+  box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1);
   background-color: rgba(255, 255, 255, .8);
   backdrop-filter: blur(5px);
 }

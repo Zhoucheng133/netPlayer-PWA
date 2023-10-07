@@ -20,7 +20,6 @@ export default {
     username: String,
     token: String,
     salt: String,
-    allSongs: Array,
     isPlay: Boolean,
     playFrom: String,
     playIndex: Number
@@ -64,14 +63,7 @@ export default {
     }
   },
   created() {
-    if(this.allSongs.length==0){
-      // console.log("冷加载");
-      this.getList();
-    }else{
-      this.list=this.allSongs;
-      // console.log("热加载");
-    }
-    
+    this.getList();
   },
 }
 </script>
