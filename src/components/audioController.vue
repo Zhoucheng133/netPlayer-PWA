@@ -55,6 +55,7 @@ export default {
       this.$nextTick(()=>{
         that.$refs.player.play();
         that.isPlay=true;
+        that.$emit("isPlay", this.isPlay);
         that.setMedia();
       })
     },

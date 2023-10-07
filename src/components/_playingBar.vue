@@ -10,7 +10,13 @@
       <div class="artist">{{ getArtist() }}</div>
     </div>
     <div class="controller">
-      
+      <div class="ctrlIcon" @click="toggleSong">
+        <i class="bi bi-play-fill" v-if="!isPlay"></i>
+        <i class="bi bi-pause-fill" v-else></i>
+      </div>
+      <div class="ctrlIcon">
+        <i class="bi bi-skip-end-fill"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -24,8 +30,12 @@ export default {
     token: String,
     playList: Array,
     playIndex: Number,
+    isPlay: Boolean
   },
   methods: {
+    toggleSong(){
+      this.$emit('toggleSong');
+    },
     getArtist(){
       return this.playList.length==0 ? '/' : this.playList[this.playIndex].artist;
     },
@@ -47,6 +57,16 @@ export default {
 </script>
 
 <style scoped>
+.ctrlIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.controller{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 30px;
+}
 .artist{
   color: rgb(170, 170, 170);
   overflow: hidden;
@@ -85,6 +105,7 @@ export default {
   /* background-color: lightblue; */
   /* display: flex; */
   display: grid;
-  grid-template-columns: 70px auto 100px;
+  padding-right: 15px;
+  grid-template-columns: 70px auto 90px;
 }
 </style>
