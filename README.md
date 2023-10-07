@@ -1,5 +1,7 @@
 # netPlayer PWA
 
+**❗️正在开发中**
+
 **本项目为netPlayer的网页版（针对移动版本的PWA版本）**
 
 建议选择合适的**netPlayer**使用：
