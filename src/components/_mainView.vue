@@ -80,10 +80,15 @@ export default {
       }, 300);
     },
     nextSong(){
-      this.$refs.audioPlayer.nextSong();
+      if(this.playList.length!=0){
+        this.$refs.audioPlayer.nextSong();
+        this.isPlay=true;
+      }
     },
     toggleSong(){
-      this.$refs.audioPlayer.toggleSong();
+      if(this.playList.length!=0){
+        this.$refs.audioPlayer.toggleSong();
+      }
     },
     updatePlayIndex(val){
       this.playIndex=val;

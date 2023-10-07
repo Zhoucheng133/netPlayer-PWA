@@ -10,11 +10,11 @@
       <div class="artist">{{ getArtist() }}</div>
     </div>
     <div class="controller">
-      <div class="ctrlIcon" @click="toggleSong">
+      <div class="ctrlIcon" @click.stop="toggleSong">
         <i class="bi bi-play-fill" v-if="!isPlay"></i>
         <i class="bi bi-pause-fill" v-else></i>
       </div>
-      <div class="ctrlIcon" @click="nextSong">
+      <div class="ctrlIcon" @click.stop="nextSong">
         <i class="bi bi-skip-end-fill"></i>
       </div>
     </div>
