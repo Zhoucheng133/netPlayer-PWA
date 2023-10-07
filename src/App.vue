@@ -81,6 +81,7 @@ export default {
 <style>
 body{
   margin: 0;
+  overflow: hidden;
 }
 #app {
   margin: 0;
