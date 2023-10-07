@@ -13,7 +13,17 @@
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
-      <playingBar :isPlay="isPlay" :playList="playList" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @toggleSong="toggleSong" @nextSong="nextSong" @showPlayingView="showPlayingView"/>
+      <playingBar 
+        :isPlay="isPlay" 
+        :playList="playList" 
+        :playIndex="playIndex" 
+        :url="url" 
+        :username="username" 
+        :salt="salt" 
+        :token="token" 
+        @toggleSong="toggleSong" 
+        @nextSong="nextSong" 
+        @showPlayingView="showPlayingView"/>
       <div class="bottomButtons">
         <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
           <i class="bi bi-music-note navgIcon"></i>
