@@ -4,7 +4,7 @@
 
     <div class="appBar">{{ pageNow }}</div>
     <div class="navgBar">
-      <playingBar :isPlay="isPlay" :playList="playList" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @toggleSong="toggleSong" />
+      <playingBar :isPlay="isPlay" :playList="playList" :playIndex="playIndex" :url="url" :username="username" :salt="salt" :token="token" @toggleSong="toggleSong" @nextSong="nextSong" />
       <div class="bottomButtons">
         <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
           <i class="bi bi-music-note navgIcon"></i>
@@ -61,6 +61,9 @@ export default {
     }
   },
   methods: {
+    nextSong(){
+      this.$refs.audioPlayer.nextSong();
+    },
     toggleSong(){
       this.$refs.audioPlayer.toggleSong();
     },

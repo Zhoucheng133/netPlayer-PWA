@@ -14,7 +14,7 @@
         <i class="bi bi-play-fill" v-if="!isPlay"></i>
         <i class="bi bi-pause-fill" v-else></i>
       </div>
-      <div class="ctrlIcon">
+      <div class="ctrlIcon" @click="nextSong">
         <i class="bi bi-skip-end-fill"></i>
       </div>
     </div>
@@ -33,6 +33,9 @@ export default {
     isPlay: Boolean
   },
   methods: {
+    nextSong(){
+      this.$emit('nextSong');
+    },
     toggleSong(){
       this.$emit('toggleSong');
     },
