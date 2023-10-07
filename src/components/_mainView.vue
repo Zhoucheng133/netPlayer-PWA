@@ -8,6 +8,7 @@
       :username="username" 
       :salt="salt" 
       :token="token" 
+      :playMode="playMode" 
       @isPlay="isPlayChange" 
       @updatePlayIndex="updatePlayIndex"  />
 
@@ -24,6 +25,7 @@
         @toggleSong="toggleSong" 
         @nextSong="nextSong" 
         @showPlayingView="showPlayingView"/>
+
       <div class="bottomButtons">
         <div :class="pageNow=='所有音乐'?'navgItem_selected':'navgItem'" @click="pageChang('所有音乐')">
           <i class="bi bi-music-note navgIcon"></i>
@@ -54,10 +56,12 @@
       :playIndex="playIndex" 
       :url="url" :username="username" 
       :salt="salt" 
+      :playMode="playMode" 
       :token="token" 
       @updateAllSongs="updateAllSongs" 
       @playSong="playSong"
       @toggleSong="toggleSong" 
+      @changePlayMode="changePlayMode"
       @nextSong="nextSong"
       @preSong="preSong"/>
 
@@ -112,9 +116,18 @@ export default {
       playingViewTrans: '100vh',
       showMask: false,
       animationForw: true,
+
+      playMode: 'list',
     }
   },
   methods: {
+    changePlayMode(){
+      if(this.playMode=='list'){
+        this.playMode='random';
+      }else{
+        this.playMode='list';
+      }
+    },
     hidePlayingView(){
       this.playingViewTrans="100vh";
       this.animationForw=false;

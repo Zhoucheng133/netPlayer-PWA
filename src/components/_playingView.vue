@@ -13,13 +13,17 @@
     <div class="artist">
       {{ getArtist() }}
     </div>
+    <div class="playMode">
+      <i class="bi bi-shuffle" v-if="playMode=='random'" @click="changePlayMode"></i>
+      <i class="bi bi-repeat" v-else @click="changePlayMode"></i>
+    </div>
     <div class="controls">
-      <div class="control" @click="preSong"><i class="bi bi-skip-start-fill"></i></div>
-      <div class="control" @click="toggleSong">
-        <i class="bi bi-play-fill" style="font-size: 60px;" v-if="!isPlay"></i>
-        <i class="bi bi-pause-fill" style="font-size: 60px;" v-else></i>
+      <div class="control"><i class="bi bi-skip-start-fill" @click="preSong"></i></div>
+      <div class="control">
+        <i class="bi bi-play-fill" style="font-size: 60px;" v-if="!isPlay" @click="toggleSong"></i>
+        <i class="bi bi-pause-fill" style="font-size: 60px;" v-else @click="toggleSong"></i>
       </div>
-      <div class="control" @click="nextSong"><i class="bi bi-skip-end-fill"></i></div>
+      <div class="control"><i class="bi bi-skip-end-fill" @click="nextSong"></i></div>
     </div>
   </div>
 </template>
@@ -33,7 +37,8 @@ export default {
     token: String,
     playList: Array,
     playIndex: Number,
-    isPlay: Boolean
+    isPlay: Boolean,
+    playMode: String,
   },
   data() {
     return {
@@ -41,6 +46,9 @@ export default {
     }
   },
   methods: {
+    changePlayMode(){
+      this.$emit("changePlayMode");
+    },
     preSong(){
       this.$emit('preSong');
     },
@@ -82,13 +90,18 @@ export default {
 </script>
 
 <style scoped>
+.playMode{
+  margin-top: 30px;
+  font-size: 18px;
+  font-weight: bold;
+}
 .control{
   display: flex;
   justify-self: center;
   align-items: center;
 }
 .controls{
-  margin-top: 40px;
+  margin-top: 20px;
   width: 230px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

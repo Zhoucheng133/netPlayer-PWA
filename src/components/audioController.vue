@@ -1,12 +1,12 @@
 <template>
   <div>
     <audio :src="nowplayURL" ref="player" controls @ended="nextSong"></audio><br/>
-    <a-button @click="toggleSong">暂停/播放</a-button>
+    <!-- <a-button @click="toggleSong">暂停/播放</a-button>
     <a-button @click="nextSong">下一首</a-button>
     <a-button @click="preSong">上一首</a-button>
     <a-button @click="changeMode('random')">随机播放</a-button>
     <a-button @click="changeMode('list')">顺序播放</a-button>
-    播放: {{ isPlay }}
+    播放: {{ isPlay }} -->
   </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
     token: String,
     salt: String,
     url: String,
+    playMode: String,
   },
   data() {
     return {
@@ -30,7 +31,6 @@ export default {
 
       playList: [],
       playIndex: 0,
-      playMode: 'list',
 
       nowplayURL: '',
 
@@ -108,9 +108,9 @@ export default {
       })
     },
     // 模式: list, random
-    changeMode(mode){
-      this.playMode=mode;
-    },
+    // changeMode(mode){
+    //   this.playMode=mode;
+    // },
     setMedia(){
       // console.log("hello?");
       var that=this;
