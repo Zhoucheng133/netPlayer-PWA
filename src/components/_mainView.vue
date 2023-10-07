@@ -75,7 +75,6 @@
       :username="username" 
       :salt="salt" 
       :token="token" 
-      v-if="false"
       @updateAllSongs="updateAllSongs" 
       @playSong="playSong" />
 
