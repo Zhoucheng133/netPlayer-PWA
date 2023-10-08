@@ -79,6 +79,11 @@
       @updateAllSongs="updateAllSongs" 
       @playSong="playSong" />
 
+    <lovedSongView 
+    class="pageContent" 
+    :lovedSongs="lovedSongs" 
+    v-show="pageNow=='我喜欢的'"/>
+
     <aboutView class="pageContent" v-show="pageNow=='关于'"/>
   </div>
 </template>
@@ -88,6 +93,7 @@ const axios=require("axios");
 
 import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
+import lovedSongView from './lovedSongView.vue';
 import aboutView from './aboutView.vue';
 import playingBar from './pageParts/playingBar.vue';
 import playingView from './pageParts/playingView.vue';
@@ -97,7 +103,8 @@ export default {
     allSongView,
     aboutView,
     playingBar,
-    playingView
+    playingView,
+    lovedSongView
   },
   props: {
     url: String,
