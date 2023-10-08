@@ -81,7 +81,10 @@
 
     <lovedSongView 
     class="pageContent" 
+    :playIndex="playIndex" 
+    :playFrom="playFrom" 
     :lovedSongs="lovedSongs" 
+    @playSong="playSong"
     v-show="pageNow=='我喜欢的'"/>
 
     <aboutView class="pageContent" v-show="pageNow=='关于'"/>

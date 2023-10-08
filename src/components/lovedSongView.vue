@@ -18,7 +18,9 @@
 <script>
 export default {
   props: {
-    lovedSongs: Array
+    lovedSongs: Array,
+    playIndex: Number,
+    playFrom: String,
   },
   methods: {
     playing(index){
@@ -27,8 +29,8 @@ export default {
       }
       return false;
     },
-    play(){
-
+    play(index){
+      this.$emit("playSong","lovedSongs", this.lovedSongs, index);
     }
   },
 }
