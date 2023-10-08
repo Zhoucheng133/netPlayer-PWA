@@ -3,8 +3,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
   pwa: {
     name: 'netPlayer PWA',
-    themeColor: '#fafafa',
-    msTileColor: '#fafafa',
+    themeColor: '#ffffff',
+    msTileColor: '#ffffff',
     manifestOptions: {
       start_url: '.',
       background_color: '#ffffff'
