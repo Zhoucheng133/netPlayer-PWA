@@ -89,8 +89,8 @@ const axios=require("axios");
 import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
 import aboutView from './aboutView.vue';
-import playingBar from './_playingBar.vue';
-import playingView from './_playingView.vue';
+import playingBar from './pageParts/playingBar.vue';
+import playingView from './pageParts/playingView.vue';
 export default {
   components: {
     audioController,
