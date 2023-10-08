@@ -75,6 +75,7 @@
       :username="username" 
       :salt="salt" 
       :token="token" 
+      :lovedSongs="lovedSongs" 
       @updateAllSongs="updateAllSongs" 
       @playSong="playSong" />
 
@@ -83,6 +84,8 @@
 </template>
 
 <script>
+const axios=require("axios");
+
 import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
 import aboutView from './aboutView.vue';
@@ -116,6 +119,8 @@ export default {
       animationForw: true,
 
       playMode: 'list',
+
+      lovedSongs: [],
     }
   },
   methods: {
@@ -175,7 +180,19 @@ export default {
     showPlayingView(){
       this.showMask=true;
       this.playingViewTrans='0';
-    }
+    },
+    getLovedSongs(){
+      axios.get(this.url+'/rest/getStarred?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt)
+      .then((response)=>{
+        this.lovedSongs=response.data['subsonic-response'].starred.song;
+      })
+      .catch(()=>{
+        this.$message.error("服务器连接出错");
+      })
+    },
+  },
+  created() {
+    this.getLovedSongs();
   },
   mounted() {
   },

@@ -5,7 +5,10 @@
       <div class="index" v-else>{{ index+1 }}</div>
       <div class="info">
         <div :class="playing(index)==true ? 'title_playing' : 'title'">{{ item.title }}</div>
-        <div :class="playing(index)==true ? 'artist_playing' : 'artist'">{{ item.artist }}</div>
+        <div :class="playing(index)==true ? 'artist_playing' : 'artist'">
+          <i class="bi bi-heart-fill lovedIcon" v-if="isLoved(index)"></i>
+          <div class="artistText">{{ item.artist }}</div>
+        </div>
       </div>
       <div :class="playing(index)==true ? 'operation_playing' : 'operation'"><i class="bi bi-three-dots-vertical"></i></div>
     </div>
@@ -22,7 +25,8 @@ export default {
     salt: String,
     isPlay: Boolean,
     playFrom: String,
-    playIndex: Number
+    playIndex: Number,
+    lovedSongs: Array,
   },
   data() {
     return {
@@ -30,6 +34,14 @@ export default {
     }
   },
   methods: {
+    isLoved(index){
+      for(var i=0;i<this.lovedSongs.length;i++){
+        if(this.list[index].id==this.lovedSongs[i].id){
+          return true;
+        }
+      }
+      return false;
+    },
     playing(index){
       if(this.playFrom=='allSongs' && index==this.playIndex){
         return true;
@@ -55,10 +67,9 @@ export default {
             return 0; // 返回0表示相等
           }
         });
-        this.$emit("updateAllSongs", this.list);
       })
       .catch(()=>{
-
+        this.$message.error("服务器连接出错");
       })
     }
   },
@@ -69,6 +80,17 @@ export default {
 </script>
 
 <style scoped>
+.artistText{
+  width: 100%;
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+.lovedIcon{
+  color: red;
+  margin-right: 5px;
+  font-size: 12px;
+}
 .playingSign{
   display: flex;
   justify-content: center;
@@ -91,6 +113,8 @@ export default {
   color: rgb(170, 170, 170);
 }
 .artist, .artist_playing{
+  display: flex;
+  align-items: center;
   text-align: left;
   font-size: 13px;
   overflow: hidden;
