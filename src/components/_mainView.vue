@@ -87,6 +87,18 @@
     @playSong="playSong"
     v-show="pageNow=='我喜欢的'"/>
 
+    <playListView 
+    class="pageContent" 
+    :url="url" 
+    :username="username" 
+    :salt="salt" 
+    :token="token"
+    v-show="pageNow=='我的歌单'"/>
+
+    <searchView 
+    class="pageContent" 
+    v-show="pageNow=='搜索'"/>
+
     <aboutView class="pageContent" v-show="pageNow=='关于'"/>
   </div>
 </template>
@@ -98,6 +110,8 @@ import audioController from './audioController.vue';
 import allSongView from './allSongView.vue';
 import lovedSongView from './lovedSongView.vue';
 import aboutView from './aboutView.vue';
+import playListView from './playListView.vue';
+import searchView from './searchView.vue';
 import playingBar from './pageParts/playingBar.vue';
 import playingView from './pageParts/playingView.vue';
 export default {
@@ -107,7 +121,9 @@ export default {
     aboutView,
     playingBar,
     playingView,
-    lovedSongView
+    lovedSongView,
+    playListView,
+    searchView
   },
   props: {
     url: String,
