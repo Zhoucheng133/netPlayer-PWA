@@ -104,6 +104,11 @@
 
     <listContentView 
     :style="{'transform': 'translate('+listContentX+', 0px)'}" 
+    :selectedListID="selectedListID" 
+    :url="url" 
+    :username="username" 
+    :salt="salt" 
+    :token="token" 
     @backMain="backMain"
     class="listContent"/>
   </div>
