@@ -92,7 +92,8 @@
     :url="url" 
     :username="username" 
     :salt="salt" 
-    :token="token"
+    :token="token" 
+    @listOpen="listOpen"
     v-show="pageNow=='我的歌单'"/>
 
     <searchView 
@@ -100,10 +101,22 @@
     v-show="pageNow=='搜索'"/>
 
     <aboutView class="pageContent" v-show="pageNow=='关于'"/>
+
+    <listContentView 
+    :style="{'transform': 'translate('+listContentX+', 0px)'}" 
+    @backMain="backMain"
+    class="listContent"/>
   </div>
 </template>
 
 <script>
+
+// 图层备注
+// 主页面的appBar: 没有指定
+// 主页面内容: 没有指定
+// 播放条: 80
+// 主页面的遮罩: 80
+// 播放页: 100
 const axios=require("axios");
 
 import audioController from './audioController.vue';
@@ -111,6 +124,7 @@ import allSongView from './allSongView.vue';
 import lovedSongView from './lovedSongView.vue';
 import aboutView from './aboutView.vue';
 import playListView from './playListView.vue';
+import listContentView from './listContentView.vue';
 import searchView from './searchView.vue';
 import playingBar from './pageParts/playingBar.vue';
 import playingView from './pageParts/playingView.vue';
@@ -123,7 +137,8 @@ export default {
     playingView,
     lovedSongView,
     playListView,
-    searchView
+    searchView,
+    listContentView
   },
   props: {
     url: String,
@@ -147,9 +162,20 @@ export default {
       playMode: 'list',
 
       lovedSongs: [],
+
+      listContentX: '100vw',
+      selectedListID: ''
     }
   },
   methods: {
+    backMain(){
+      console.log("?");
+      this.listContentX="100vw";
+    },
+    listOpen(id){
+      this.selectedListID=id;
+      this.listContentX="0px";
+    },
     changePlayMode(){
       if(this.playMode=='list'){
         this.playMode='random';
@@ -241,6 +267,16 @@ export default {
   100%{
     opacity: 0;
   }
+}
+.listContent{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  height: calc(100vh - 164px);
+  background-color: white;
+  transition: all ease-in-out .3s;
 }
 .mask, .maskNew{
   position: fixed;

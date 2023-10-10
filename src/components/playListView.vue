@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <div class="content" v-for="(item, index) in list" :key="index" @click="openList(index)">
+    <div class="content" v-for="(item, index) in list" :key="index" @click="openList(item.id)">
       <div class="index">{{ index+1 }}</div>
       <div class="info">
         {{ item.name }}
@@ -25,8 +25,8 @@ export default {
     }
   },
   methods: {
-    openList(){
-
+    openList(id){
+      this.$emit("listOpen", id);
     },
     getList(){
       axios.get(this.url+'/rest/getPlaylists?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt)
