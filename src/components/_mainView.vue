@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="animationForw? 'mask' : 'maskNew'" v-if="showMask"></div>
+    <div :class="animationForw? 'mask' : 'maskNew'" v-if="showMask" @click="maskController"></div>
     <audioController 
       ref="audioPlayer" 
       style="display: none;" 
@@ -77,6 +77,7 @@
       :token="token" 
       :lovedSongs="lovedSongs" 
       @updateAllSongs="updateAllSongs" 
+      @showSongOperation="showSongOperation"
       @playSong="playSong" />
 
     <lovedSongView 
@@ -116,6 +117,11 @@
     @playSong="playSong" 
     @backMain="backMain"
     class="listContent"/>
+
+    <songOperation 
+    :style="{'transform': 'translate(0px, '+dialogX+')'}" 
+    @hideSongOperation="hideSongOperation"
+    class="operationDialog"/>
   </div>
 </template>
 
@@ -129,6 +135,7 @@
 // 播放条: 80
 // 主页面的遮罩: 80
 // 播放页: 100
+// 操作Dialog: 200
 const axios=require("axios");
 
 import audioController from './audioController.vue';
@@ -140,6 +147,7 @@ import listContentView from './listContentView.vue';
 import searchView from './searchView.vue';
 import playingBar from './pageParts/playingBar.vue';
 import playingView from './pageParts/playingView.vue';
+import songOperation from './pageParts/songOperation.vue';
 export default {
   components: {
     audioController,
@@ -150,7 +158,8 @@ export default {
     lovedSongView,
     playListView,
     searchView,
-    listContentView
+    listContentView,
+    songOperation
   },
   props: {
     url: String,
@@ -178,9 +187,29 @@ export default {
       listContentX: '100vw',
       selectedListID: '',
       playListId: '',
+
+      dialogX: '100%',
     }
   },
   methods: {
+    hideSongOperation(){
+      this.animationForw=false;
+      var that=this;
+      setTimeout(() => {
+        that.showMask=false;
+        that.animationForw=true;
+      }, 300);
+      this.dialogX='100%';
+    },
+    maskController(){
+      if(this.dialogX=='0px'){
+        this.hideSongOperation();
+      }
+    },
+    showSongOperation(){
+      this.dialogX='0px';
+      this.showMask=true;
+    },
     backMain(){
       this.listContentX="100vw";
     },
@@ -276,6 +305,13 @@ export default {
 </script>
 
 <style scoped>
+.operationDialog{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 200;
+  transition: all ease-in-out .3s;
+}
 @keyframes opacityAnimation {
   0%{
     opacity: 0;
