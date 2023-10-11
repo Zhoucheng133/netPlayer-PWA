@@ -109,6 +109,11 @@
     :username="username" 
     :salt="salt" 
     :token="token" 
+    :lovedSongs="lovedSongs" 
+    :playFrom="playFrom" 
+    :playIndex="playIndex" 
+    :playListId="playListId" 
+    @playSong="playSong" 
     @backMain="backMain"
     class="listContent"/>
   </div>
@@ -171,7 +176,8 @@ export default {
       lovedSongs: [],
 
       listContentX: '100vw',
-      selectedListID: ''
+      selectedListID: '',
+      playListId: '',
     }
   },
   methods: {
@@ -220,10 +226,15 @@ export default {
     isPlayChange(val){
       this.isPlay=val;
     },
-    playSong(from ,list, index){
+    playSong(from ,list, index, playListId){
       this.playFrom=from;
       this.playIndex=index;
       this.playList=list;
+      if(playListId!=undefined){
+        this.playListId=playListId;
+      }else{
+        this.playListId="";
+      }
       this.$refs.audioPlayer.play(list, index);
     },
     updateAllSongs(val){
