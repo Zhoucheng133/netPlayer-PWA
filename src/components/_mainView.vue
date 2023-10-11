@@ -67,6 +67,7 @@
 
     <allSongView 
       class="pageContent" 
+      ref="allSongRef"
       v-show="pageNow=='所有音乐'" 
       :isPlay="isPlay" 
       :playFrom="playFrom" 
@@ -82,6 +83,7 @@
 
     <lovedSongView 
     class="pageContent" 
+    ref="lovedSongsRef"
     :playIndex="playIndex" 
     :playFrom="playFrom" 
     :lovedSongs="lovedSongs" 
@@ -115,6 +117,7 @@
     :playFrom="playFrom" 
     :playIndex="playIndex" 
     :playListId="playListId" 
+    ref="listContentRef"
     @playSong="playSong" 
     @showSongOperation="showSongOperation" 
     @backMain="backMain"
@@ -127,9 +130,11 @@
     :username="username" 
     :salt="salt" 
     :token="token" 
-    :songOperationFrom="songOperationFrom"
+    :songOperationListId="songOperationListId"
     :lovedSongs="lovedSongs" 
-    @hideSongOperation="hideSongOperation"
+    :songOperationFrom="songOperationFrom" 
+    @hideSongOperation="hideSongOperation" 
+    @playFromOperation="playFromOperation"
     class="operationDialog"/>
   </div>
 </template>
@@ -199,10 +204,21 @@ export default {
 
       dialogX: '100%',
       operationSongItem: {},
+      operationSongIndex: 0,
+      songOperationListId: '',
       songOperationFrom: '',
     }
   },
   methods: {
+    playFromOperation(from){
+      if(from=='allSongs'){
+        this.$refs.allSongRef.play(this.operationSongIndex);
+      }else if(from=='lovedSongs'){
+        this.$refs.lovedSongsRef.play(this.operationSongIndex);
+      }else if(from=='playList'){
+        this.$refs.listContentRef.play(this.operationSongIndex);
+      }
+    },
     hideSongOperation(){
       this.animationForw=false;
       var that=this;
@@ -217,8 +233,10 @@ export default {
         this.hideSongOperation();
       }
     },
-    showSongOperation(item, listID){
-      this.songOperationFrom=listID;
+    showSongOperation(item, songIndex, listID, from){
+      this.songOperationFrom=from;
+      this.operationSongIndex=songIndex;
+      this.songOperationListId=listID;
       this.operationSongItem=item;
       this.dialogX='0px';
       this.showMask=true;

@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <div class="menuItem" style="margin-top: 30px;">
+      <div class="menuItem" style="margin-top: 30px;" @click="play()">
         <i class="bi bi-play-fill menuIcon"></i>
         <div class="menuText">播放</div>
       </div>
@@ -25,7 +25,7 @@
         <i class="bi bi-music-note-list menuIcon"></i>
         <div class="menuText">加入到歌单...</div>
       </div>
-      <div :class="songOperationFrom=='' ? 'menuItem_disabled' : 'menuItem'">
+      <div :class="songOperationListId=='' ? 'menuItem_disabled' : 'menuItem'">
         <i class="bi bi-file-x menuIcon"></i>
         <div class="menuText">从歌单中删除</div>
       </div>
@@ -41,6 +41,7 @@ export default {
     username: String,
     token: String,
     salt: String,
+    songOperationListId: String,
     songOperationFrom: String,
     lovedSongs: Array,
   },
@@ -50,6 +51,10 @@ export default {
     }
   },
   methods: {
+    play(){
+      this.$emit("playFromOperation", this.songOperationFrom);
+      this.$emit("hideSongOperation");
+    },
     isLoved(){
       for(var i=0;i<this.lovedSongs.length;i++){
         if(this.operationSongItem.id==this.lovedSongs[i].id){
