@@ -10,7 +10,7 @@
           <div class="artistText">{{ item.artist }}</div>
         </div>
       </div>
-      <div :class="playing(index)==true ? 'operation_playing' : 'operation'"><i class="bi bi-three-dots-vertical"></i></div>
+      <div :class="playing(index)==true ? 'operation_playing' : 'operation'" @click.stop="songOperation(item)"><i class="bi bi-three-dots-vertical"></i></div>
     </div>
   </div>
 </template>
@@ -23,6 +23,9 @@ export default {
     playFrom: String,
   },
   methods: {
+    songOperation(item){
+      this.$emit("showSongOperation", item, "");
+    },
     playing(index){
       if(this.playFrom=='lovedSongs' && index==this.playIndex){
         return true;

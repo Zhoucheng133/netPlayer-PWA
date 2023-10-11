@@ -85,6 +85,7 @@
     :playIndex="playIndex" 
     :playFrom="playFrom" 
     :lovedSongs="lovedSongs" 
+    @showSongOperation="showSongOperation" 
     @playSong="playSong"
     v-show="pageNow=='我喜欢的'"/>
 
