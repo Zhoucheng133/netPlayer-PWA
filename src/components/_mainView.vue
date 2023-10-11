@@ -119,6 +119,8 @@
 // 图层备注
 // 主页面的appBar: 没有指定
 // 主页面内容: 没有指定
+// 底部NavigationBar: 95
+// 播放列表内容: 90
 // 播放条: 80
 // 主页面的遮罩: 80
 // 播放页: 100
@@ -276,7 +278,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 90;
   width: 100%;
   height: calc(100vh - 164px);
   background-color: white;
@@ -345,6 +347,7 @@ export default {
   box-shadow: 0 0px 10px 1px rgba(97, 97, 97, 0.1);
   background-color: rgba(255, 255, 255, .8);
   backdrop-filter: blur(5px);
+  z-index: 95;
 }
 .blank{
   height: 24px;
