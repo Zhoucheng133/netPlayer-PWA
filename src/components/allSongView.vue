@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     songOperation(item){
-      this.$emit("showSongOperation", item);
+      this.$emit("showSongOperation", item, "");
     },
     isLoved(index){
       for(var i=0;i<this.lovedSongs.length;i++){

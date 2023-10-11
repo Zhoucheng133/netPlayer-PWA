@@ -125,6 +125,7 @@
     :username="username" 
     :salt="salt" 
     :token="token" 
+    :songOperationFrom="songOperationFrom"
     @hideSongOperation="hideSongOperation"
     class="operationDialog"/>
   </div>
@@ -195,6 +196,7 @@ export default {
 
       dialogX: '100%',
       operationSongItem: {},
+      songOperationFrom: '',
     }
   },
   methods: {
@@ -212,7 +214,8 @@ export default {
         this.hideSongOperation();
       }
     },
-    showSongOperation(item){
+    showSongOperation(item, listID){
+      this.songOperationFrom=listID;
       this.operationSongItem=item;
       this.dialogX='0px';
       this.showMask=true;

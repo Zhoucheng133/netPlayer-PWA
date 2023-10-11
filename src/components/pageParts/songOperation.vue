@@ -21,7 +21,7 @@
         <i class="bi bi-music-note-list menuIcon"></i>
         <div class="menuText">加入到歌单...</div>
       </div>
-      <div class="menuItem">
+      <div :class="songOperationFrom=='' ? 'menuItem_disabled' : 'menuItem'">
         <i class="bi bi-file-x menuIcon"></i>
         <div class="menuText">从歌单中删除</div>
       </div>
@@ -37,6 +37,7 @@ export default {
     username: String,
     token: String,
     salt: String,
+    songOperationFrom: String
   },
   data() {
     return {
@@ -67,11 +68,14 @@ export default {
 </script>
 
 <style scoped>
+.menuItem_disabled{
+  color: rgb(170, 170, 170);
+}
 .menuIcon{
   font-size: 18px;
   margin-right: 15px;
 }
-.menuItem{
+.menuItem, .menuItem_disabled{
   margin-top: 15px;
   height: 40px;
   display: flex;
