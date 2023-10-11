@@ -116,6 +116,7 @@
     :playIndex="playIndex" 
     :playListId="playListId" 
     @playSong="playSong" 
+    @showSongOperation="showSongOperation" 
     @backMain="backMain"
     class="listContent"/>
 
@@ -141,8 +142,8 @@
 // 底部NavigationBar: 95
 // 播放列表内容: 90
 // 播放条: 80
-// 主页面的遮罩: 80
-// 播放页: 100
+// 主页面的遮罩: 100
+// 播放页: 150
 // 操作Dialog: 200
 const axios=require("axios");
 
@@ -356,7 +357,7 @@ export default {
   left: 0;
   height: 100vh;
   width: 100vw;
-  z-index: 80;
+  z-index: 100;
   background-color: rgba(0, 0, 0, .3);
 }
 .maskNew{
@@ -367,7 +368,7 @@ export default {
 }
 .playingView{
   position: fixed;
-  z-index: 100;
+  z-index: 150;
   top: 0;
   left: 0;
   height: 100vh;
