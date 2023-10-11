@@ -126,6 +126,7 @@
     :salt="salt" 
     :token="token" 
     :songOperationFrom="songOperationFrom"
+    :lovedSongs="lovedSongs" 
     @hideSongOperation="hideSongOperation"
     class="operationDialog"/>
   </div>

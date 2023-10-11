@@ -13,9 +13,13 @@
         <i class="bi bi-play-fill menuIcon"></i>
         <div class="menuText">播放</div>
       </div>
-      <div class="menuItem">
+      <div class="menuItem" v-if="!isLoved()">
         <i class="bi bi-heart-fill menuIcon" style="color: red;"></i>
         <div class="menuText">添加到我喜欢的</div>
+      </div>
+      <div class="menuItem" v-else>
+        <i class="bi bi-heartbreak-fill menuIcon" style="color: grey;"></i>
+        <div class="menuText">从我喜欢的音乐中删除</div>
       </div>
       <div class="menuItem">
         <i class="bi bi-music-note-list menuIcon"></i>
@@ -37,7 +41,8 @@ export default {
     username: String,
     token: String,
     salt: String,
-    songOperationFrom: String
+    songOperationFrom: String,
+    lovedSongs: Array,
   },
   data() {
     return {
@@ -45,6 +50,14 @@ export default {
     }
   },
   methods: {
+    isLoved(){
+      for(var i=0;i<this.lovedSongs.length;i++){
+        if(this.operationSongItem.id==this.lovedSongs[i].id){
+          return true;
+        }
+      }
+      return false;
+    },
     getCover(){
       return this.url+'/rest/getCoverArt?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt+'&id='+this.operationSongItem.id;
     },
