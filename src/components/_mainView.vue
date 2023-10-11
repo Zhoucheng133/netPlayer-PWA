@@ -120,6 +120,11 @@
 
     <songOperation 
     :style="{'transform': 'translate(0px, '+dialogX+')'}" 
+    :operationSongItem="operationSongItem"
+    :url="url" 
+    :username="username" 
+    :salt="salt" 
+    :token="token" 
     @hideSongOperation="hideSongOperation"
     class="operationDialog"/>
   </div>
@@ -189,6 +194,7 @@ export default {
       playListId: '',
 
       dialogX: '100%',
+      operationSongItem: {},
     }
   },
   methods: {
@@ -206,7 +212,8 @@ export default {
         this.hideSongOperation();
       }
     },
-    showSongOperation(){
+    showSongOperation(item){
+      this.operationSongItem=item;
       this.dialogX='0px';
       this.showMask=true;
     },
