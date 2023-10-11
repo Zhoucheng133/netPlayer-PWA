@@ -263,6 +263,13 @@ export default {
   created() {
     this.getLovedSongs();
   },
+  watch: {
+    pageNow: function(newVal, oldVal){
+      if(oldVal=='我的歌单' && newVal!='我的歌单'){
+        this.listContentX='100vw';
+      }
+    }
+  },
   mounted() {
   },
 }
