@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     backMain(){
-      console.log("??");
       this.$emit("backMain");
     },
     getList(){

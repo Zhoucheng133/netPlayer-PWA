@@ -174,7 +174,6 @@ export default {
   },
   methods: {
     backMain(){
-      console.log("?");
       this.listContentX="100vw";
     },
     listOpen(id){
