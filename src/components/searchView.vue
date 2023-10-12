@@ -1,18 +1,86 @@
 <template>
   <div>
-    搜索
+    <div class="inputArea">
+      <a-input-search placeholder="输入搜索内容" style="width: 100%" enter-button  @search="onSearch" v-model="inputText"/>
+    </div>
+    <div class="searchRlt">
+      <div class="content" v-for="(item, index) in list" :key="index" @click="play(index)">
+        <div class="playingSign" v-if="playing(index)"><i class="bi bi-play-fill"></i></div>
+        <div class="index" v-else>{{ index+1 }}</div>
+        <div class="info">
+          <div :class="playing(index)==true ? 'title_playing' : 'title'">{{ item.title }}</div>
+          <div :class="playing(index)==true ? 'artist_playing' : 'artist'">
+            <i class="bi bi-heart-fill lovedIcon" v-if="isLoved(index)"></i>
+            <div class="artistText">{{ item.artist }}</div>
+          </div>
+        </div>
+        <div :class="playing(index)==true ? 'operation_playing' : 'operation'" @click.stop="songOperation(index, item)"><i class="bi bi-three-dots-vertical"></i></div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+const axios=require("axios");
 export default {
+  props: {
+    url: String,
+    username: String,
+    token: String,
+    salt: String,
+    lovedSongs: Array,
+    playFrom: String,
+    playIndex: Number,
+    searchText: String,
+  },
   data() {
     return {
-      
+      list: [],
+      inputText: '',
     }
   },
   methods: {
-    
+    songOperation(index, item){
+      this.$emit("showSongOperation", item, index, "", 'search');
+    },
+    isLoved(index){
+      for(var i=0;i<this.lovedSongs.length;i++){
+        if(this.list[index].id==this.lovedSongs[i].id){
+          return true;
+        }
+      }
+      return false;
+    },
+    playing(index){
+      if(this.playFrom=='search' && index==this.playIndex && this.searchText==this.inputText){
+        return true;
+      }
+      return false;
+    },
+    play(index){
+      this.$emit("playSong","search", this.list, index);
+    },
+    onSearch(){
+      var that=this;
+
+      if(this.inputText==''){
+        this.$message.error("搜索内容不能为空");
+        return;
+      }
+
+      axios.get(this.url+'/rest/search2?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt+"&query="+this.inputText)
+      .then((response)=>{
+        if(response.data['subsonic-response'].status=="ok"){
+          this.$emit("setSearchInput", that.inputText);
+          that.list=response.data['subsonic-response'].searchResult2.song;
+        }else{
+          this.$message.error("操作失败");
+        }
+      })
+      .catch(()=>{
+        this.$message.error("服务器连接出错");
+      })
+    },
   },
   created() {
     
@@ -21,5 +89,93 @@ export default {
 </script>
 
 <style scoped>
-
+.artistText{
+  width: 100%;
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+.lovedIcon{
+  color: red;
+  margin-right: 5px;
+  font-size: 12px;
+}
+.playingSign{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(24, 144, 255);
+  font-size: 18px;
+}
+.operation_playing{
+  color: rgb(24, 144, 255);
+}
+.operation, .operation_playing{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.artist_playing{
+  color: rgb(24, 144, 255);
+}
+.artist{
+  color: rgb(170, 170, 170);
+}
+.artist, .artist_playing{
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font-size: 13px;
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+.title_playing{
+  color: rgb(24, 144, 255);
+}
+.title, .title_playing{
+  font-weight: bold;
+  text-align: left;
+  overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+  font-size: 15px;
+}
+.info{
+  /* background-color: lightpink; */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.index{
+  color: rgb(170, 170, 170);
+  /* background-color: lightgoldenrodyellow; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content{
+  display: grid;
+  grid-template-columns: 50px auto 50px;
+  height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.searchRlt{
+  position: fixed;
+  top: 120px;
+  width: 100%;
+  height: calc(100vh - 120px - 164px);
+  overflow-y: scroll;
+  /* background-color: red; */
+}
+.inputArea{
+  position: fixed;
+  top: 60px;
+  width: 100%;
+  height: 60px;
+  /* background-color: grey; */
+  padding-left: 10px;
+  padding-right: 10px;
+}
 </style>

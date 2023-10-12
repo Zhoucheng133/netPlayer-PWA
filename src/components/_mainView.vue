@@ -102,6 +102,18 @@
 
     <searchView 
     class="pageContent" 
+    :url="url" 
+    :username="username" 
+    :salt="salt" 
+    :token="token" 
+    ref="searchRef"
+    :lovedSongs="lovedSongs" 
+    :playFrom="playFrom" 
+    :playIndex="playIndex" 
+    @showSongOperation="showSongOperation" 
+    :searchText="searchText" 
+    @playSong="playSong" 
+    @setSearchInput="setSearchInput"
     v-show="pageNow=='搜索'"/>
 
     <aboutView class="pageContent" v-show="pageNow=='关于'"/>
@@ -209,9 +221,14 @@ export default {
       operationSongIndex: 0,
       songOperationListId: '',
       songOperationFrom: '',
+
+      searchText: '',
     }
   },
   methods: {
+    setSearchInput(val){
+      this.searchText=val;
+    },
     addToLove(){
       var that=this;
       axios.get(this.url+'/rest/star?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt+"&id="+this.operationSongItem.id)
@@ -249,6 +266,8 @@ export default {
         this.$refs.lovedSongsRef.play(this.operationSongIndex);
       }else if(from=='playList'){
         this.$refs.listContentRef.play(this.operationSongIndex);
+      }else if(from=='search'){
+        this.$refs.searchRef.play(this.operationSongIndex);
       }
     },
     hideSongOperation(){
