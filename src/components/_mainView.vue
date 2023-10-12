@@ -134,7 +134,9 @@
     :lovedSongs="lovedSongs" 
     :songOperationFrom="songOperationFrom" 
     @hideSongOperation="hideSongOperation" 
-    @playFromOperation="playFromOperation"
+    @playFromOperation="playFromOperation" 
+    @addToLove="addToLove" 
+    @removeLove="removeLove"
     class="operationDialog"/>
   </div>
 </template>
@@ -210,6 +212,36 @@ export default {
     }
   },
   methods: {
+    addToLove(){
+      var that=this;
+      axios.get(this.url+'/rest/star?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt+"&id="+this.operationSongItem.id)
+      .then((response)=>{
+        if(response.data['subsonic-response'].status=="ok"){
+          that.getLovedSongs();
+          that.hideSongOperation();
+        }else{
+          this.$message.error("操作失败");
+        }
+      })
+      .catch(()=>{
+        this.$message.error("服务器连接出错");
+      })
+    },
+    removeLove(){
+      var that=this;
+      axios.get(this.url+'/rest/unstar?v=1.12.0&c=netPlayer&f=json&u='+this.username+'&t='+this.token+'&s='+this.salt+"&id="+this.operationSongItem.id)
+      .then((response)=>{
+        if(response.data['subsonic-response'].status=="ok"){
+          that.getLovedSongs();
+          that.hideSongOperation();
+        }else{
+          this.$message.error("操作失败");
+        }
+      })
+      .catch(()=>{
+        this.$message.error("服务器连接出错");
+      })
+    },
     playFromOperation(from){
       if(from=='allSongs'){
         this.$refs.allSongRef.play(this.operationSongIndex);

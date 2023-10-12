@@ -13,11 +13,11 @@
         <i class="bi bi-play-fill menuIcon"></i>
         <div class="menuText">播放</div>
       </div>
-      <div class="menuItem" v-if="!isLoved()">
+      <div class="menuItem" v-if="!isLoved()" @click="addToLove()">
         <i class="bi bi-heart-fill menuIcon" style="color: red;"></i>
         <div class="menuText">添加到我喜欢的</div>
       </div>
-      <div class="menuItem" v-else>
+      <div class="menuItem" v-else @click="removeLove()">
         <i class="bi bi-heartbreak-fill menuIcon" style="color: grey;"></i>
         <div class="menuText">从我喜欢的音乐中删除</div>
       </div>
@@ -51,6 +51,12 @@ export default {
     }
   },
   methods: {
+    removeLove(){
+      this.$emit("removeLove");
+    },
+    addToLove(){
+      this.$emit("addToLove");
+    },
     play(){
       this.$emit("playFromOperation", this.songOperationFrom);
       this.$emit("hideSongOperation");
