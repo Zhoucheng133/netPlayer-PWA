@@ -1,4 +1,3 @@
-<mark>**本项目迁移到Github，[点击这里查看](https://github.com/Zhoucheng133/netPlayer-PWA)**</mark>
 # netPlayer PWA
 
 ## 简介
@@ -15,9 +14,9 @@
 
 **基于Subsonic API的Web (PWA)端播放器**
 
-关于桌面版的netPlayer，你可以在这里查看：[Gitee](https://gitee.com/Ryan-zhou/net-player) / [Github](https://github.com/Zhoucheng133/net-player)  
-关于移动版的netPlayer，你可以在这里查看：[Gitee](https://gitee.com/Ryan-zhou/net-player-mobile) / [Github](https://github.com/Zhoucheng133/netPlayer-Mobile)  
-关于移动Lite的netPlayer，你可以在这里查看：[Gitee](https://gitee.com/Ryan-zhou/net-player_-lite) / [Github](https://github.com/Zhoucheng133/neyPlayer_Lite)
+关于桌面版的netPlayer，你可以在这里查看：[Github](https://github.com/Zhoucheng133/net-player)  
+关于移动版的netPlayer，你可以在这里查看：[Github](https://github.com/Zhoucheng133/netPlayer-Mobile)  
+关于移动Lite的netPlayer，你可以在这里查看：[Github](https://github.com/Zhoucheng133/neyPlayer_Lite)
 
 
 |                          | netPlayer                       | netPlayer Mobile                                             | netPlayer Lite                                               | netPlayer PWA         |
